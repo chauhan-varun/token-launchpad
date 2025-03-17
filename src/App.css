@@ -1,0 +1,54 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1200px;
+  padding: 2rem;
+}
+
+.inputText {
+  padding: 1rem;
+  width: 100%;
+  max-width: 400px;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  margin: 1rem 0;
+}
+
+.inputText:focus {
+  outline: none;
+  border-color: #535bf2;
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+}
+
+.btn {
+  padding: 1rem 2rem;
+  background: #646cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0.5rem;
+}
+
+.btn:hover {
+  background: #535bf2;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
