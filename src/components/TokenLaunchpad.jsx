@@ -1,15 +1,17 @@
 import {
-  createInitializeInstruction,
+  createAssociatedTokenAccountInstruction,
   createInitializeMetadataPointerInstruction,
   createInitializeMintInstruction,
-  createMint,
+  createMintToInstruction,
   ExtensionType,
+  getAssociatedTokenAddressSync,
   getMinimumBalanceForRentExemptMint,
   getMintLen,
   LENGTH_SIZE,
   TOKEN_2022_PROGRAM_ID,
   TYPE_SIZE,
 } from "@solana/spl-token";
+import { createInitializeInstruction, pack } from '@solana/spl-token-metadata';
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 import React from "react";
@@ -66,9 +68,42 @@ export const TokenLaunchpad = () => {
 
     transaction.feePayer = wallet.publicKey;
     transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-    transaction.partialSign(keypair.publicKey);
+    transaction.partialSign(keypair);
 
     await wallet.sendTransaction(transaction, connection);
+    alert(`token minted at ${keypair.publicKey.toBase58()}`);
+
+    const associateToken = getAssociatedTokenAddressSync(
+      keypair.publicKey,
+      wallet.publicKey,
+      false,
+      TOKEN_2022_PROGRAM_ID
+    )
+
+    alert(`associated token created ${associateToken.toBase58()}`)
+    const transaction2 = new Transaction().add(
+      createAssociatedTokenAccountInstruction(
+        wallet.publicKey,
+        associateToken,
+        wallet.publicKey,
+        keypair.publicKey,
+        TOKEN_2022_PROGRAM_ID
+      )
+    )
+    await wallet.sendTransaction(transaction2, connection);
+    
+    const transaction3 = new Transaction().add(
+      createMintToInstruction(
+        keypair.publicKey,
+        associateToken,
+        wallet.publicKey,
+        1000000000,
+        wallet.publicKey,
+        TOKEN_2022_PROGRAM_ID
+      )
+    )
+    await wallet.sendTransaction(transaction3, connection);
+    alert("token minted");
   };
   return (
     <div>
