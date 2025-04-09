@@ -20,11 +20,18 @@ export function TokenLaunchpad() {
 
   async function createToken() {
     const mintKeypair = Keypair.generate();
+    const name = document.getElementById('name').value.trim();
+    const symbol = document.getElementById('symbol').value.trim();
+    const uri = document.getElementById('uri').value.trim();
+    const mintAmount = document.getElementById('amt').value.trim();
+    console.log(name, symbol, uri, mintAmount);
+    
+    
     const metadata = {
       mint: mintKeypair.publicKey,
-      name: "VARUN",
-      symbol: "VAR",
-      uri: "https://cdn.jsdelivr.net/gh/chauhan-varun/metadata.json@main/metadata.json",
+      name,
+      symbol,
+      uri,
       additionalMetadata: [],
     };
 
@@ -110,7 +117,7 @@ export function TokenLaunchpad() {
           mintKeypair.publicKey,
           associatedToken,
           wallet.publicKey,
-          1000000000,
+          Number(mintAmount) * 10 ** 9,
           [],
           TOKEN_2022_PROGRAM_ID
         )
@@ -135,23 +142,23 @@ export function TokenLaunchpad() {
       }}
     >
       <h1>Solana Token Launchpad</h1>
-      <input className="inputText" type="text" placeholder="Name"></input>{" "}
+      <input id="name" type="text" placeholder="Name"></input>{" "}
       <br />
       <input
-        className="inputText"
+        id="symbol"
         type="text"
         placeholder="Symbol"
       ></input>{" "}
       <br />
       <input
-        className="inputText"
+        id="uri"
         type="text"
         placeholder="Image URL"
       ></input>{" "}
       <br />
       <input
-        className="inputText"
-        type="text"
+        id="amt"
+        type="number"
         placeholder="Initial Supply"
       ></input>{" "}
       <br />
